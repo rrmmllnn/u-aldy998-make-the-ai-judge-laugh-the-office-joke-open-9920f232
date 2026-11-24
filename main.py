@@ -9,24 +9,26 @@ from pathlib import Path
 
 def check_line(text):
     """Refuse anything that is not one plain line of the right size."""
-    assert text and text == text.strip()
-    assert '\n' not in text and '\r' not in text
-    assert 1 <= len(text) <= 200
+    assert text and text == text.strip(), "entry must be a non-empty line"
+    assert '\n' not in text and '\r' not in text, "entry must stay on one line"
+    assert 1 <= len(text) <= 200, "entry must be 1-200 characters"
     return text
 
 
 def joke_line():
-    opener = "I automated my job with one spreadsheet, "
-    middle = "one macro, and one brave email, and got promoted "
-    closer = "to a weekly meeting explaining the spreadsheet to "
-    tail = "the people who banned macros."
-    return check_line(opener + middle + closer + tail)
+    parts = [
+        "I automated my job with one spreadsheet, ",
+        "one macro, and one brave email, and got promoted ",
+        "to a weekly meeting explaining the spreadsheet to ",
+        "the people who banned macros.",
+    ]
+    return check_line("".join(parts))
 
 
 def main():
-    out = Path('/output/entry.txt')
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(joke_line(), encoding='utf-8')
+    entry_path = Path('/output/entry.txt')
+    entry_path.parent.mkdir(parents=True, exist_ok=True)
+    entry_path.write_text(joke_line(), encoding='utf-8')
 
 
 if __name__ == '__main__':
